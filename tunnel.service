@@ -1,6 +1,8 @@
 #This adds a new service called "tunnel" service. This is how I like to make sure I have an "in case" shell.
 #Configuring OpenVPN is still the "best" option, but sometimes I have to drop to the rev SSH to configure it because something on the client site blocks the VPN tunnel
 
+#Make sure you have the SSH key AND the permiossions are set AND it's been tested before dropping this on the client network ;)
+
 vi /etc/systemd/system/tunnel.service
 
 [Unit]
