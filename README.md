@@ -10,3 +10,6 @@ It does a few things:
    - runs enumeration scripts against those ports/services
    - attempts to run responder and send hashes back over the SSH session
    - going to attempt to "autocrack" them using hashcat on the "big rig"
+
+
+NOTE TO SELF - get better at MD. I've always been fine with drab text, but some of the other GH's I've seen look great
