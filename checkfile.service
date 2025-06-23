@@ -1,4 +1,4 @@
-#sudo vim /lib/systemd/system/checkfile.service
+#sudo vi /lib/systemd/system/checkfile.service
 #Add a script 
 
 
@@ -6,8 +6,8 @@
 Description = Run inotifywait in backgoround
 
 [Service]
-User=ubuntu
-Group=ubuntu
+User=pi
+Group=pi
 ExecStart=/bin/bash /home/pi/auto-pwn/check_file.sh
 RestartSec=10
 
