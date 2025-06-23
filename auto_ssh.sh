@@ -1,5 +1,5 @@
 #!/bin/bash
-#This is a last ditch effort in case the tunnel service AND VPN doesn't work!
+#This is a last ditch effort to be tossed into cron in case the tunnel service AND VPN doesn't work!
 #You might need to manually SSH in and "Accept" the key first
 #I borrowed this from another GitHub like 3 years ago and honestly don't remember where - but I use it on my NUC for pen testing and like it. 
 
