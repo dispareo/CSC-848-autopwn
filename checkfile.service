@@ -6,13 +6,14 @@
 Description = Run inotifywait in backgoround
 
 [Service]
-User=pi
-Group=pi
-ExecStart=/bin/bash /home/pi/auto-pwn/check_file.sh
+User=root
+Group=root
+ExecStart=/bin/bash /home/pi/CSC-848-autopwn/monitor.sh
 RestartSec=10
 
 [Install]
 WantedBy=multi-user.target
+
 
 
 #sudo systemctl daemon-reload

